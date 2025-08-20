@@ -106,11 +106,32 @@ public class EmployeeController {
      * @param id 员工id
      */
     @PostMapping("/status/{status}")
-    @ApiOperation("更新员工状态")
+    @ApiOperation("启用、禁用员工账号")
     public Result startOrStop(@PathVariable Integer status, Long id) {
         log.info("更新员工状态：id={}, status={}", id, status);
         // 调用业务层方法
         employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+
+    /**
+     * 根据ID查询员工信息
+     * @param id 员工ID
+     * @return 员工信息
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据ID查询员工信息")
+    public Result<Employee> getById(@PathVariable Long id) {
+        log.info("根据ID查询员工信息：id={}", id);
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工信息：{}", employeeDTO);
+        employeeService.update(employeeDTO);
         return Result.success();
     }
 }
