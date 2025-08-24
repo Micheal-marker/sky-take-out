@@ -8,6 +8,8 @@ import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface CategoryMapper {
 
@@ -41,7 +43,7 @@ public interface CategoryMapper {
      * @return
      */
     @Select("select * from category where type = #{type}")
-    Category getByType(String type);
+    List<Category> getByType(String type);
 
     /**
      * 根据ID删除分类

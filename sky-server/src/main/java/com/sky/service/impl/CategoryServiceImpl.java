@@ -14,6 +14,7 @@ import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
@@ -94,9 +96,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @param type
      * @return
      */
-    public Category getByType(String type) {
-        Category category = categoryMapper.getByType(type);
-        return category;
+    public List<Category> getByType(String type) {
+        List<Category> categoryList = categoryMapper.getByType(type);
+        return categoryList;
     }
 
     /**
