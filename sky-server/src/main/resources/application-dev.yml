@@ -1,0 +1,14 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: root
+    password: root
+
+    alioss:
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+        access-key-id: System.getenv("ALIYUN_ACCESS_KEY_ID")
+        access-key-secret: System.getenv("ALIYUN_ACCESS_KEY_SECRET")
+        bucket-name: sky-take-out-micheal-marker
