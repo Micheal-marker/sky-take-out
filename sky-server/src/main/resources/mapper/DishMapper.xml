@@ -6,4 +6,18 @@
         INSERT INTO dish (name, category_id, price, image, description, status)
         VALUES (#{name}, #{categoryId}, #{price},  #{image}, #{description}, #{status})
     </insert>
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+        SELECT d.*, c.name AS category_name FROM dish d INNER JOIN category c  ON d.category_id = c.id
+        <where>
+            <if test="name != null">
+                AND d.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND d.status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>
