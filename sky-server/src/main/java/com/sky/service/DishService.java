@@ -41,4 +41,11 @@ public interface DishService {
      * @param dishDTO 菜品数据传输对象，包含菜品信息和口味信息
      */
     void updateWithFlavor(DishDTO dishDTO);
+
+    /**
+     * 启用、禁用菜品
+     * @param status 状态 0禁用 1启用
+     * @param id 菜品ID
+     */
+    void startOrStop(Integer status, Long id);
 }

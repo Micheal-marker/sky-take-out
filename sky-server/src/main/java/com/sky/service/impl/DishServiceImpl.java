@@ -148,4 +148,17 @@ public class DishServiceImpl implements DishService {
         }
         dishFlavorMapper.insertBatch(flavors);
     }
+
+    /**
+     * 启用、禁用菜品
+     * @param status 状态 0禁用 1启用
+     * @param id 菜品ID
+     */
+    public void startOrStop(Integer status, Long id) {
+        Dish dish = Dish.builder()
+                .status(status)
+                .id(id)
+                .build();
+        dishMapper.update(dish);
+    }
 }
