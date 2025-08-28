@@ -6,6 +6,12 @@
         INSERT INTO dish (name, category_id, price, image, description, status)
         VALUES (#{name}, #{categoryId}, #{price},  #{image}, #{description}, #{status})
     </insert>
+    <delete id="deleteByIds">
+        DELETE FROM dish WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
     <select id="pageQuery" resultType="com.sky.vo.DishVO">
         SELECT d.*, c.name AS category_name FROM dish d INNER JOIN category c  ON d.category_id = c.id
         <where>
@@ -19,5 +25,6 @@
                 AND d.status = #{status}
             </if>
         </where>
+        ORDER BY d.create_time DESC
     </select>
 </mapper>

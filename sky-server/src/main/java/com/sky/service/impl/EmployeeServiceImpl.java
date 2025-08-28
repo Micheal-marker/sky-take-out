@@ -32,8 +32,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
-    @Autowired
-    private EmployeeService employeeService;
 
     /**
      * 员工登录

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SetmealMapper {
+
     /**
      * 根据分类ID查询套餐数量
      * @param id 分类ID

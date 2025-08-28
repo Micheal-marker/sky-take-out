@@ -6,6 +6,8 @@ import com.sky.result.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 菜品管理服务接口
  * 负责处理菜品相关的业务逻辑
@@ -19,4 +21,10 @@ public interface DishService {
      * @return 分页结果
      */
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+    /**
+     * 批量删除菜品
+     * @param ids 菜品ID列表
+     */
+    void deleteBatch(List<Long> ids);
 }

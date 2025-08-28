@@ -32,8 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
     private DishMapper dishMapper;
     @Autowired
     private SetmealMapper setmealMapper;
-    @Autowired
-    private CategoryService categoryService;
 
     /**
      * 新增分类
