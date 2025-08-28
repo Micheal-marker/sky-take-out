@@ -2,6 +2,7 @@ package com.sky.service;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,13 @@ public interface DishService {
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
 
     /**
+     * 启用、禁用菜品
+     * @param status 状态 0禁用 1启用
+     * @param id 菜品ID
+     */
+    void startOrStop(Integer status, Long id);
+
+    /**
      * 批量删除菜品
      * @param ids 菜品ID列表
      */
@@ -43,9 +51,9 @@ public interface DishService {
     void updateWithFlavor(DishDTO dishDTO);
 
     /**
-     * 启用、禁用菜品
-     * @param status 状态 0禁用 1启用
-     * @param id 菜品ID
+     * 根据分类ID查询菜品
+     * @param categoryId 分类ID
+     * @return 菜品列表
      */
-    void startOrStop(Integer status, Long id);
+    List<Dish> getByCategoryId(Long categoryId);
 }

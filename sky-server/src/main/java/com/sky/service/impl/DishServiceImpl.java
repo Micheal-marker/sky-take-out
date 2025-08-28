@@ -73,6 +73,19 @@ public class DishServiceImpl implements DishService {
     }
 
     /**
+     * 启用、禁用菜品
+     * @param status 状态 0禁用 1启用
+     * @param id 菜品ID
+     */
+    public void startOrStop(Integer status, Long id) {
+        Dish dish = Dish.builder()
+                .status(status)
+                .id(id)
+                .build();
+        dishMapper.update(dish);
+    }
+
+    /**
      * 批量删除菜品
      * @param ids 菜品ID列表
      */
@@ -150,15 +163,12 @@ public class DishServiceImpl implements DishService {
     }
 
     /**
-     * 启用、禁用菜品
-     * @param status 状态 0禁用 1启用
-     * @param id 菜品ID
+     * 根据分类ID查询菜品
+     * @param categoryId 分类ID
+     * @return 菜品列表
      */
-    public void startOrStop(Integer status, Long id) {
-        Dish dish = Dish.builder()
-                .status(status)
-                .id(id)
-                .build();
-        dishMapper.update(dish);
+    public List<Dish> getByCategoryId(Long categoryId) {
+        List<Dish> dishList = dishMapper.getByCategoryId(categoryId);
+        return dishList;
     }
 }
