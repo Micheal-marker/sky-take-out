@@ -6,9 +6,12 @@ sky:
     database: sky_take_out
     username: root
     password: root
-
   alioss:
       endpoint: oss-cn-hangzhou.aliyuncs.com
       access-key-id: ${OSS_ACCESS_KEY_ID} # 本地环境变量配置
       access-key-secret: ${OSS_ACCESS_KEY_SECRET} # 本地环境变量配置
       bucket-name: sky-take-out-micheal-marker
+  redis:
+    host: localhost
+    port: 6379
+    database: 1
