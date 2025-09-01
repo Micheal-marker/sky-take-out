@@ -124,4 +124,16 @@ public class SetmealServiceImpl implements SetmealService {
         });
         setmealDishMapper.insertBatch(setmealDishes);
     }
+
+    /**
+     * 删除套餐，同时删除套餐和菜品的关联关系
+     * @param ids
+     */
+    public void delete(List<Long> ids) {
+        // 批量删除套餐信息
+        setmealMapper.deleteByIds(ids);
+
+        // 批量删除套餐和菜品的关联关系
+        setmealDishMapper.deleteBySetmealIds(ids);
+    }
 }

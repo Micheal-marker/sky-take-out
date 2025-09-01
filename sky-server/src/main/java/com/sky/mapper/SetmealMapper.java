@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface SetmealMapper {
 
@@ -50,4 +52,10 @@ public interface SetmealMapper {
      */
     @Select("SELECT * FROM setmeal WHERE id = #{id}")
     Setmeal getById(Long id);
+
+    /**
+     * 批量根据主键删除套餐数据
+     * @param ids
+     */
+    void deleteByIds(List<Long> ids);
 }
