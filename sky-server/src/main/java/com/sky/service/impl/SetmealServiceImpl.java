@@ -66,4 +66,17 @@ public class SetmealServiceImpl implements SetmealService {
         // 返回分页结果
         return new PageResult(total, records);
     }
+
+    /**
+     * 套餐起售、停售
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, Long id) {
+        Setmeal setmeal = Setmeal.builder()
+                .status(status)
+                .id(id)
+                .build();
+        setmealMapper.update(setmeal);
+    }
 }

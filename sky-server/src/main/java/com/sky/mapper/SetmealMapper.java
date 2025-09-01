@@ -33,4 +33,11 @@ public interface SetmealMapper {
      * @return 分页结果
      */
     Page<Setmeal> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    /**
+     * 更新套餐信息
+     * @param setmeal 套餐实体对象
+     */
+    @AutoFill(value = OperationType.UPDATE)
+    void update(Setmeal setmeal);
 }
