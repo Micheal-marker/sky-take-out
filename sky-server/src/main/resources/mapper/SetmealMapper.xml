@@ -6,4 +6,19 @@
         INSERT INTO setmeal (name, category_id, price, description, image, status)
         VALUES (#{name}, #{categoryId}, #{price}, #{description}, #{image}, #{status})
     </insert>
+    <select id="pageQuery" resultType="com.sky.entity.Setmeal">
+        SELECT s.*, c.name AS category_name FROM setmeal s INNER JOIN category c ON s.category_id = c.id
+        <where>
+            <if test="name != null and name != ''">
+                AND s.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND s.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND s.status = #{status}
+            </if>
+        </where>
+        ORDER BY s.create_time DESC
+    </select>
 </mapper>
