@@ -37,11 +37,16 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/employee/login");
+
+        registry.addInterceptor(jwtTokenAdminInterceptor)
+                .addPathPatterns("/user/**")
+                .excludePathPatterns("/user/user/login")
+                .excludePathPatterns("/user/shop/status");
     }
 
     /**
      * 通过knife4j生成接口文档
-     * @return
+     * 管理端接口文档配置
      */
     @Bean
     public Docket docket1() {
@@ -62,8 +67,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
     /**
-     * 通过knife4j生成接口文档
-     * @return
+     * 用户端接口文档配置
      */
     @Bean
     public Docket docket2() {
