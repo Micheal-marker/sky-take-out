@@ -24,4 +24,12 @@
         </set>
         WHERE id = #{id}
     </update>
+    <select id="getByType" resultType="com.sky.entity.Category">
+        SELECT * FROM category
+        <where>
+            <if test="type != null">AND type = #{type}</if>
+        </where>
+        AND status = 1
+        ORDER BY create_time DESC
+    </select>
 </mapper>

@@ -34,7 +34,7 @@ public interface CategoryService {
      * @param type
      * @return
      */
-    List<Category> getByType(String type);
+    List<Category> getByType(Integer type);
 
     /**
      * 修改分类

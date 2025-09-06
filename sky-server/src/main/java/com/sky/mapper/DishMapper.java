@@ -72,4 +72,11 @@ public interface DishMapper {
      */
     @Select("select * from dish where category_id = #{categoryId} order by update_time desc")
     List<Dish> getByCategoryId(Long categoryId);
+
+    /**
+     * 根据条件查询菜品
+     * @param dish 菜品实体对象，包含查询条件
+     * @return 菜品列表
+     */
+    List<Dish> list(Dish dish);
 }

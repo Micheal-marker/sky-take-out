@@ -42,8 +42,7 @@ public interface CategoryMapper {
      * @param type
      * @return
      */
-    @Select("select * from category where type = #{type}")
-    List<Category> getByType(String type);
+    List<Category> getByType(Integer type);
 
     /**
      * 根据ID删除分类
