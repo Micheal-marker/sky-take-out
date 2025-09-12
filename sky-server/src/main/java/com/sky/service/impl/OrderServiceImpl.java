@@ -5,10 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
-import com.sky.dto.OrdersDTO;
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersPaymentDTO;
-import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
@@ -18,6 +15,7 @@ import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +29,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sky.entity.Orders.*;
 
 @Service
 @Slf4j
@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
         // 根据订单id更新订单的状态、支付方式、支付状态、结账时间
         Orders orders = Orders.builder()
                 .id(ordersDB.getId())
-                .status(Orders.TO_BE_CONFIRMED)
+                .status(TO_BE_CONFIRMED)
                 .payStatus(Orders.PAID)
                 .checkoutTime(LocalDateTime.now())
                 .build();
@@ -175,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public PageResult pageQuery(OrdersPageQueryDTO ordersPageQueryDTO) {
-        // select * from employee limit 0, 10;
+        // select * from orders limit 0, 10;
         // 开始分页查询
         // 这里可以使用MyBatis的分页插件PageHelper
         PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
@@ -188,7 +188,7 @@ public class OrderServiceImpl implements OrderService {
         // 查询出订单明细，并封装入OrderVO进行响应
         List<OrderVO> list = new ArrayList();
 
-        if(page != null && page.getResult() != null && page.getResult().size()>0){
+        if(page != null && page.getResult() != null && page.getResult().size() > 0){
             for(Orders orders : page.getResult()){
                 OrderVO orderVO = new OrderVO();
                 BeanUtils.copyProperties(orders,orderVO);
@@ -246,7 +246,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 3.订单处于待接单状态下取消，需要进行退款
         // 订单处于待接单状态下取消，需要进行退款
-        if (ordersDB.getStatus().equals(Orders.TO_BE_CONFIRMED)) {
+        if (ordersDB.getStatus().equals(TO_BE_CONFIRMED)) {
             //调用微信支付退款接口
 //            weChatPayUtil.refund(
 //                    ordersDB.getNumber(), //商户订单号
@@ -292,6 +292,86 @@ public class OrderServiceImpl implements OrderService {
 
         // 3.插入到购物车表
         shoppingCartMapper.insertBatch(shoppingCartList);
+    }
+
+    /**
+     * 条件查询订单
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
+        // 1.查询订单数据
+        // select * from orders limit 0, 10;
+        // 开始分页查询
+        // 这里可以使用MyBatis的分页插件PageHelper
+        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+
+        // 2.查询订单包含的菜品，并封装成OrderVO
+        List<OrderVO> orderVOList = new ArrayList();
+        if(page != null && page.getResult() != null && page.getResult().size() > 0) {
+            for(Orders orders : page.getResult()){
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                String orderDishes = getOrderDishesStr(orders);
+
+                // 将订单菜品信息封装到orderVO中，并添加到orderVOList
+                orderVO.setOrderDishes(orderDishes);
+                orderVOList.add(orderVO);
+            }
+        }
+
+        return new PageResult(page.getTotal(), orderVOList);
+    }
+
+    /**
+     * 各个状态的订单数量统计
+     * @return
+     */
+    public OrderStatisticsVO orderStatistics() {
+
+        OrderStatisticsVO orderStatisticsVO = new OrderStatisticsVO();
+
+        orderStatisticsVO.setConfirmed(orderMapper.countStatus(CONFIRMED));                      // 待派送数量
+        orderStatisticsVO.setDeliveryInProgress(orderMapper.countStatus(DELIVERY_IN_PROGRESS));  // 派送中数量
+        orderStatisticsVO.setToBeConfirmed(orderMapper.countStatus(TO_BE_CONFIRMED));            // 待接单数量
+
+        return orderStatisticsVO;
+    }
+
+    /**
+     * 接单
+     * @param ordersConfirmDTO
+     */
+    public void confirm(OrdersConfirmDTO ordersConfirmDTO) {
+        Orders orders = builder()
+                .id(ordersConfirmDTO.getId())
+                .status(CONFIRMED)
+                .build();
+
+        orderMapper.update(orders);
+    }
+
+    /**
+     * 根据订单id获取菜品信息字符串
+     *
+     * @param orders
+     * @return
+     */
+    private String getOrderDishesStr(Orders orders) {
+        // 根据订单id查询菜品详细信息
+        List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(orders.getId());
+        
+        StringBuilder dishStr = new StringBuilder();
+
+        // 用StringBuilder拼接字符串
+        for(OrderDetail orderDetail : orderDetailList) {
+            String dishItem = orderDetail.getName() + "*" + orderDetail.getNumber();
+            dishStr.append(dishItem);
+        }
+        // 转换为String返回
+        return dishStr.toString();
     }
 
 }
