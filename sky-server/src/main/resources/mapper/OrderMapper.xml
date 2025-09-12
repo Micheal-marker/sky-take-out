@@ -44,5 +44,17 @@
         </set>
         where id = #{id}
     </update>
+    <select id="pageQuery" resultType="com.sky.entity.Orders">
+        SELECT * FROM orders
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY order_time DESC
+    </select>
 
 </mapper>

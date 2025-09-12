@@ -19,4 +19,11 @@
             </if>
         </where>
     </select>
+    <insert id="insertBatch">
+        INSERT INTO shopping_cart (user_id, dish_id, setmeal_id, name, image, dish_flavor, number, amount, create_time)
+        VALUES
+        <foreach collection="shoppingCartList" item="cart" separator=",">
+            (#{cart.userId}, #{cart.dishId}, #{cart.setmealId}, #{cart.name}, #{cart.image}, #{cart.dishFlavor}, #{cart.number}, #{cart.amount}, #{cart.createTime})
+        </foreach>
+    </insert>
 </mapper>
