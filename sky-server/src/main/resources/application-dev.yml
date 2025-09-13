@@ -16,8 +16,8 @@ sky:
     port: 6379
     database: 1
   wechat:
-    appid: ${WECHAT_APPID}
-    secret: ${WECHAT_SECRET}
+    appid: ${WECHAT_APPID} # 本地环境变量配置
+    secret: ${WECHAT_SECRET} # 本地环境变量配置
     mchid: 1561414331
     mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
     privateKeyFilePath: D:\pay\apiclient_key.pem
@@ -25,4 +25,7 @@ sky:
     weChatPayCertFilePath: D:\pay\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
     notifyUrl: https://https://267fd06c.r35.cpolar.top/notify/paySuccess
     refundNotifyUrl: https://https://267fd06c.r35.cpolar.top/notify/refundSuccess
-
+  shop:
+    address: 北京市海淀区上地十街10号
+  baidu:
+    ak: ${BAIDU_AK} # 本地环境变量配置

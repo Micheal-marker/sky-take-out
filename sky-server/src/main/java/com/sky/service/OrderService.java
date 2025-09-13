@@ -47,7 +47,7 @@ public interface OrderService {
      * 取消订单
      * @param id
      */
-    void cancel(Long id) throws Exception;
+    void userCancelById(Long id) throws Exception;
 
     /**
      * 重复下单
@@ -73,4 +73,28 @@ public interface OrderService {
      * @param ordersConfirmDTO
      */
     void confirm(OrdersConfirmDTO ordersConfirmDTO);
+
+    /**
+     * 拒单
+     * @param ordersRejectionDTO
+     */
+    void rejection(OrdersRejectionDTO ordersRejectionDTO) throws Exception;
+
+    /**
+     * 取消订单
+     * @param ordersCancelDTO
+     */
+    void cancel(OrdersCancelDTO ordersCancelDTO) throws Exception;
+
+    /**
+     * 派送订单
+     * @param id
+     */
+    void deliveryOrder(Long id);
+
+    /**
+     * 完成订单
+     * @param id
+     */
+    void completeOrder(Long id);
 }
