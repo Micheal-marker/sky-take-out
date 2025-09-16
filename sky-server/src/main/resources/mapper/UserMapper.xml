@@ -6,4 +6,15 @@
         INSERT INTO user (openid, name, phone, sex, id_number, avatar,create_time)
         VALUES (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})
     </insert>
+    <select id="sumByMap" resultType="java.lang.Integer">
+        SELECT count(id) FROM user
+        <where>
+            <if test="begin != null">
+                AND create_time &gt; #{begin}
+            </if>
+            <if test="begin != null">
+                AND create_time &lt; #{end}
+            </if>
+        </where>
+    </select>
 </mapper>
