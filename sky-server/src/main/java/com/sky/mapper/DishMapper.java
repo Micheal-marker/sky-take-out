@@ -5,12 +5,14 @@ import com.sky.annotation.AutoFill;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.enumeration.OperationType;
+import com.sky.vo.DishOverViewVO;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DishMapper {
@@ -20,7 +22,7 @@ public interface DishMapper {
      * @param id 分类ID
      * @return 菜品数量
      */
-    @org.apache.ibatis.annotations.Select("SELECT COUNT(*) FROM dish WHERE category_id = #{id}")
+    @Select("SELECT COUNT(*) FROM dish WHERE category_id = #{id}")
     Integer countByCategoryId(Long id);
 
     /**
@@ -79,4 +81,11 @@ public interface DishMapper {
      * @return 菜品列表
      */
     List<Dish> list(Dish dish);
+
+    /**
+     * 根据动态条件统计菜品数量
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
 }

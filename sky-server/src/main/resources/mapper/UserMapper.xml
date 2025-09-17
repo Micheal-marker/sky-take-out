@@ -12,7 +12,7 @@
             <if test="begin != null">
                 AND create_time &gt; #{begin}
             </if>
-            <if test="begin != null">
+            <if test="end != null">
                 AND create_time &lt; #{end}
             </if>
         </where>

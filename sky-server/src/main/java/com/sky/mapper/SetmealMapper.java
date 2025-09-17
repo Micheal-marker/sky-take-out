@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface SetmealMapper {
@@ -21,7 +22,7 @@ public interface SetmealMapper {
      * @param id 分类ID
      * @return 套餐数量
      */
-    @org.apache.ibatis.annotations.Select("SELECT COUNT(*) FROM setmeal WHERE category_id = #{id}")
+    @Select("SELECT COUNT(*) FROM setmeal WHERE category_id = #{id}")
     Integer countByCategoryId(Long id);
 
     /**
@@ -77,4 +78,11 @@ public interface SetmealMapper {
             "LEFT JOIN dish d ON d.id = sd.dish_id " +
             "WHERE sd.setmeal_id = #{setmealId}")
     List<DishItemVO> getDishItemById(Long setmealId);
+
+    /**
+     * 根据动态条件统计套餐数量
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
 }

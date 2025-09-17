@@ -58,4 +58,15 @@
         </where>
         ORDER BY create_time DESC
     </select>
+    <select id="countByMap" resultType="java.lang.Integer">
+        SELECT count(id) FROM setmeal
+        <where>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
 </mapper>
