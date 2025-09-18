@@ -36,9 +36,11 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 
     /**
      * 查询今日运营数据
+     * @param beginTime
+     * @param endTime
      * @return
      */
-    public BusinessDataVO getBusinessData() {
+    public BusinessDataVO getBusinessData(LocalDateTime beginTime, LocalDateTime endTime) {
         /**
          * 新增用户：当日新增用户的数量
          * 营业额：当日已完成订单的总金额
@@ -46,9 +48,6 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
          * 订单完成率：有效订单数 / 总订单数
          * 平均客单价：营业额 / 有效订单数
          */
-        LocalDateTime beginTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
-        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
-
         Map map = new HashMap();
         map.put("begin", beginTime);
         map.put("end", endTime);
